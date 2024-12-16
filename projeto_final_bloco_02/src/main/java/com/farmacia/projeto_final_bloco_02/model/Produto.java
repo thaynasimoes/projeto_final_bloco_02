@@ -1,52 +1,39 @@
 package com.farmacia.projeto_final_bloco_02.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.List;
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_categoria")
-public class Categoria {
+@Table(name = "tb_produto")
+public class Produto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank(message = "O nome da categoria é obrigatório!")
-	@Size(min = 2, max = 50)
+	@NotBlank
+	@Size(min = 2, max = 255)
 	private String nome;
 	
 	private String descricao;
 	
-	@OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("categoria")
-	private List<Produto> produto;
+	@ManyToOne
+    @JsonIgnoreProperties("produto")
+	private Categoria categoria;
+	
+	private Integer quantidade_estoque;
 
 	public Long getId() {
 		return id;
 	}
-	
-
-	public List<Produto> getProduto() {
-		return produto;
-	}
-
-
-
-	public void setProduto(List<Produto> produto) {
-		this.produto = produto;
-	}
-
-
 
 	public void setId(Long id) {
 		this.id = id;
@@ -67,6 +54,23 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Integer getQuantidade_estoque() {
+		return quantidade_estoque;
+	}
+
+	public void setQuantidade_estoque(Integer quantidade_estoque) {
+		this.quantidade_estoque = quantidade_estoque;
+	}
+	
 	
 	
 }
